@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>churit Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #2c3e50;
+            color: white;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .game-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        .game-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .game-info {
+            padding: 15px;
+        }
+        .game-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .game-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .game-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .game-link:hover {
+            background-color: #2980b9;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            header {
+                padding: 20px 0;
+            }
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>churit Games</h1>
+        <p>퍼즐과 논리로 가득한 게임의 세계</p>
+    </header>
+
+    <div class="container">
+        <div class="game-grid">
+            <div class="game-card">
+                <img src="icon-192x192.png" alt="Aqre">
+                <div class="game-info">
+                    <h2 class="game-title">Aqre</h2>
+                    <p class="game-description">논리적 사고력을 키우는 퍼즐 게임. 다양한 레벨과 도전과제로 두뇌를 자극하세요.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.churit.aqre" class="game-link">플레이하기</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://play-lh.googleusercontent.com/3KtSEofI6CK5gpcKDHZEKGTjHUFDvGy_Dp6R7zBqLDhwzHCQYBR4RtPsHOxEWA5Lrg=w240-h480-rw" alt="Word Chain">
+                <div class="game-info">
+                    <h2 class="game-title">Word Chain</h2>
+                    <p class="game-description">영어 단어 실력을 향상시키는 워드체인 게임. AI와 함께 즐기는 단어 대결!</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.churit.wordchain" class="game-link">플레이하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
