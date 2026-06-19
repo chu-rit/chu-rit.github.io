@@ -534,6 +534,11 @@
     </div>
 
     <div class="field">
+      <label>줄간격 <span class="val" id="lineHeightVal">1.5</span></label>
+      <input type="range" id="lineHeight" min="0.8" max="2.5" step="0.1" value="1.5">
+    </div>
+
+    <div class="field">
       <label>정렬</label>
       <div class="seg-group">
         <button class="seg-btn active" id="alignLeft" onclick="setAlign('left')">좌</button>
@@ -628,6 +633,8 @@
     fontWeight:    document.getElementById('fontWeight'),
     textColor:     document.getElementById('textColor'),
     textColorHex:  document.getElementById('textColorHex'),
+    lineHeight:    document.getElementById('lineHeight'),
+    lineHeightVal: document.getElementById('lineHeightVal'),
     bgColor:       document.getElementById('bgColor'),
     bgColorHex:    document.getElementById('bgColorHex'),
     borderWidth:   document.getElementById('borderWidth'),
@@ -688,6 +695,7 @@
     card.style.fontFamily = els.fontFamily.value;
     card.style.fontSize = els.fontSize.value + 'pt';
     card.style.fontWeight = els.fontWeight.value;
+    card.style.lineHeight = els.lineHeight.value;
     card.style.backgroundColor = els.bgColor.value;
     const bw = els.borderWidth.value;
     card.style.border = bw !== '0' ? `${bw}pt solid ${els.borderColor.value}` : '2px solid var(--border)';
@@ -779,6 +787,7 @@
     const bgColor = els.bgColor.value;
     const borderWidth = els.borderWidth.value + 'pt';
     const borderColor = els.borderColor.value;
+    const lineHeight = els.lineHeight.value;
 
     document.querySelectorAll('.label-cell').forEach(cell => {
       cell.style.fontFamily = fontFamily;
@@ -786,11 +795,13 @@
       cell.style.fontWeight = fontWeight;
       cell.style.color = textColor;
       cell.style.backgroundColor = bgColor;
+      cell.style.lineHeight = lineHeight;
       cell.style.border = borderWidth !== '0pt' ? `${borderWidth} solid ${borderColor}` : 'none';
       const textEl = cell.querySelector('.label-text');
       if (textEl) {
         textEl.style.textAlign = align;
         textEl.style.justifyContent = align === 'left' ? 'flex-start' : (align === 'right' ? 'flex-end' : 'center');
+        textEl.style.lineHeight = lineHeight;
       }
 
       const idx = cell.querySelector('.label-index');
@@ -850,6 +861,7 @@
     els.fontFamily.addEventListener(ev, applyStyles);
     els.fontSize.addEventListener(ev, () => { els.fontSizeVal.textContent = els.fontSize.value + 'pt'; applyStyles(); });
     els.fontWeight.addEventListener(ev, applyStyles);
+    els.lineHeight.addEventListener(ev, () => { els.lineHeightVal.textContent = els.lineHeight.value; applyStyles(); });
     els.borderWidth.addEventListener(ev, () => { els.borderVal.textContent = els.borderWidth.value + 'pt'; applyStyles(); });
     els.zoom.addEventListener(ev, applyZoom);
   });
