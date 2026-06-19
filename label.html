@@ -170,13 +170,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 24px;
     overflow-y: auto;
   }
 
   .sheet-wrapper {
     position: relative;
-    margin-bottom: 16px;
+    margin: 0 auto 16px;
   }
 
   /* A4 sheet */
@@ -276,20 +277,162 @@
     margin-bottom: 8px;
   }
 
-  /* Print styles */
+  /* Sidebar toggle - hidden */
+  .sidebar-toggle { display: none; }
+
+  /* Mobile single label view (hidden on desktop) */
+  .mobile-label-view {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .mobile-label-card {
+    width: 100%;
+    aspect-ratio: 63.5 / 38.1;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 12px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    overflow: hidden;
+  }
+  .mobile-label-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mobile-label-nav button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s;
+  }
+  .mobile-label-nav button:hover { border-color: var(--primary); }
+  .mobile-label-nav .nav-info {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    body { display: block; min-height: auto; }
+    .main { flex-direction: column; overflow: visible; flex: none; }
+
+    /* Header - sticky on mobile */
+    header {
+      padding: 10px 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 { font-size: 16px; }
+    header .actions { gap: 6px; }
+    .btn { padding: 7px 12px; font-size: 12px; }
+
+    /* Canvas area - show first on mobile, sticky below header */
+    .canvas-area {
+      padding: 8px;
+      order: 1;
+      flex: 0 0 auto;
+      min-height: auto;
+      position: sticky;
+      top: 52px;
+      z-index: 9;
+      background: var(--bg);
+    }
+
+    /* Hide A4 sheet on mobile, show single label view */
+    .sheet-wrapper { display: none; }
+    .sheet-info { display: none; }
+    .mobile-label-view { display: flex !important; }
+    #showIndexField, #showGuideField, #borderWidthField, #borderColorField, #zoomField { display: none; }
+
+    /* Sidebar below preview */
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-top: 1px solid var(--border);
+      border-bottom: none;
+      padding: 14px;
+      order: 2;
+      max-height: none;
+      overflow-y: visible;
+    }
+
+    .sidebar h2 { font-size: 12px; margin-top: 14px; }
+    .sidebar h2:first-child { margin-top: 0; }
+    .info-box { font-size: 11px; padding: 10px; }
+    .info-box strong { font-size: 12px; }
+
+    .field { margin-bottom: 10px; }
+    .field label { font-size: 12px; }
+    .field input[type="text"],
+    .field input[type="number"],
+    .field select,
+    .field textarea {
+      padding: 9px 10px;
+      font-size: 15px;
+      min-height: 40px;
+    }
+    .field input[type="range"] { height: 36px; }
+
+    .seg-btn { padding: 9px 4px; font-size: 12px; }
+
+    .color-row input[type="color"] { width: 44px; height: 40px; }
+  }
+
+  @media (max-width: 500px) {
+    header { padding: 8px 10px; }
+    header h1 { font-size: 14px; }
+    .btn { padding: 6px 10px; font-size: 11px; }
+
+    .sidebar { padding: 12px; }
+    .field input[type="text"],
+    .field input[type="number"],
+    .field select,
+    .field textarea {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+
+  /* Print styles - placed after all media queries to ensure override */
   @media print {
     @page { size: A4; margin: 0; }
     body { background: #fff; }
-    header, .sidebar, .canvas-area > *:not(.sheet-wrapper) { display: none !important; }
+    header, .sidebar, .mobile-label-view, .sheet-info { display: none !important; }
     .canvas-area { padding: 0; display: block; overflow: visible; }
-    .sheet-wrapper { margin: 0; }
+    .sheet-wrapper { display: block !important; margin: 0; width: auto; height: auto; }
     .sheet {
+      display: block !important;
       border: none;
       box-shadow: none;
       width: 210mm;
       height: 297mm;
       page-break-after: always;
+      transform: none !important;
     }
+    .labels-grid { display: grid !important; }
     .label-cell {
       outline: none !important;
       cursor: default;
@@ -297,10 +440,6 @@
     .label-cell .label-index { display: none; }
   }
 
-  @media (max-width: 900px) {
-    .main { flex-direction: column; }
-    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); max-height: 45vh; }
-  }
 </style>
 </head>
 <body>
@@ -316,7 +455,7 @@
 
 <div class="main">
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
 
     <div class="info-box">
       <strong>📋 시트 규격 (A4)</strong>
@@ -344,7 +483,7 @@
     <div id="singleModeFields" style="display:none">
       <div class="field">
         <label>선택된 라벨 <span class="val" id="selectedInfo">없음</span></label>
-        <textarea id="singleText" rows="2" placeholder="라벨을 클릭하여 선택하세요" disabled></textarea>
+        <textarea id="singleText" rows="2" placeholder="" disabled></textarea>
       </div>
     </div>
 
@@ -370,8 +509,8 @@
     </div>
 
     <div class="field">
-      <label>글자 크기 <span class="val" id="fontSizeVal">12pt</span></label>
-      <input type="range" id="fontSize" min="6" max="40" value="12">
+      <label>글자 크기 <span class="val" id="fontSizeVal">20pt</span></label>
+      <input type="range" id="fontSize" min="6" max="40" value="20">
     </div>
 
     <div class="field">
@@ -397,8 +536,8 @@
     <div class="field">
       <label>정렬</label>
       <div class="seg-group">
-        <button class="seg-btn" id="alignLeft" onclick="setAlign('left')">좌</button>
-        <button class="seg-btn active" id="alignCenter" onclick="setAlign('center')">중</button>
+        <button class="seg-btn active" id="alignLeft" onclick="setAlign('left')">좌</button>
+        <button class="seg-btn" id="alignCenter" onclick="setAlign('center')">중</button>
         <button class="seg-btn" id="alignRight" onclick="setAlign('right')">우</button>
       </div>
     </div>
@@ -412,12 +551,12 @@
       </div>
     </div>
 
-    <div class="field">
+    <div class="field" id="borderWidthField">
       <label>테두리 두께 <span class="val" id="borderVal">0pt</span></label>
       <input type="range" id="borderWidth" min="0" max="3" step="0.5" value="0">
     </div>
 
-    <div class="field">
+    <div class="field" id="borderColorField">
       <label>테두리 색상</label>
       <div class="color-row">
         <input type="color" id="borderColor" value="#4f46e5">
@@ -425,19 +564,18 @@
       </div>
     </div>
 
-    <h2>미리보기</h2>
-    <div class="field">
+    <div class="field" id="zoomField">
       <label>화면 배율 <span class="val" id="zoomVal">100%</span></label>
       <input type="range" id="zoom" min="30" max="150" value="100" step="10">
     </div>
 
-    <div class="field">
+    <div class="field" id="showIndexField">
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
         <input type="checkbox" id="showIndex" checked style="width:auto"> 라벨 번호 표시
       </label>
     </div>
 
-    <div class="field">
+    <div class="field" id="showGuideField">
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
         <input type="checkbox" id="showGuide" checked style="width:auto"> 가이드선 표시
       </label>
@@ -453,6 +591,15 @@
         <div class="labels-grid" id="labelsGrid"></div>
       </div>
     </div>
+    <!-- Mobile single label view -->
+    <div class="mobile-label-view" id="mobileLabelView">
+      <div class="mobile-label-card" id="mobileLabelCard" onclick="selectLabel(mobileIndex)"></div>
+      <div class="mobile-label-nav">
+        <button onclick="mobilePrev()">&#9664;</button>
+        <span class="nav-info" id="mobileNavInfo">1 / 21</span>
+        <button onclick="mobileNext()">&#9654;</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -466,7 +613,7 @@
   let labels = new Array(TOTAL).fill('');
   let selectedIndex = -1;
   let mode = 'all'; // 'single' | 'all'
-  let align = 'center';
+  let align = 'left';
   let showIndex = true;
   let showGuide = true;
 
@@ -496,6 +643,9 @@
     sheetWrapper:  document.getElementById('sheetWrapper'),
     singleModeFields:  document.getElementById('singleModeFields'),
     allModeFields:     document.getElementById('allModeFields'),
+    mobileLabelView:   document.getElementById('mobileLabelView'),
+    mobileLabelCard:   document.getElementById('mobileLabelCard'),
+    mobileNavInfo:     document.getElementById('mobileNavInfo'),
   };
 
   // ── Build grid ──
@@ -519,15 +669,51 @@
       cell.addEventListener('click', () => selectLabel(i));
       grid.appendChild(cell);
     }
+    updateMobileView();
     applyStyles();
+  }
+
+  // ── Mobile single label view ──
+  let mobileIndex = 0;
+
+  function updateMobileView() {
+    const card = els.mobileLabelCard;
+    const text = labels[mobileIndex] || '';
+    card.textContent = text || '비어있음';
+    card.style.color = text ? els.textColor.value : '#ccc';
+    card.style.fontStyle = text ? 'normal' : 'italic';
+    card.style.borderColor = selectedIndex === mobileIndex ? 'var(--primary)' : 'var(--border)';
+    card.style.textAlign = align;
+    card.style.justifyContent = align === 'left' ? 'flex-start' : (align === 'right' ? 'flex-end' : 'center');
+    card.style.fontFamily = els.fontFamily.value;
+    card.style.fontSize = els.fontSize.value + 'pt';
+    card.style.fontWeight = els.fontWeight.value;
+    card.style.backgroundColor = els.bgColor.value;
+    const bw = els.borderWidth.value;
+    card.style.border = bw !== '0' ? `${bw}pt solid ${els.borderColor.value}` : '2px solid var(--border)';
+    els.mobileNavInfo.textContent = `${mobileIndex + 1} / ${TOTAL}`;
+  }
+
+  function mobilePrev() {
+    mobileIndex = (mobileIndex - 1 + TOTAL) % TOTAL;
+    if (mode === 'single') selectLabel(mobileIndex);
+    else updateMobileView();
+  }
+
+  function mobileNext() {
+    mobileIndex = (mobileIndex + 1) % TOTAL;
+    if (mode === 'single') selectLabel(mobileIndex);
+    else updateMobileView();
   }
 
   // ── Select label ──
   function selectLabel(i) {
     selectedIndex = i;
+    mobileIndex = i;
     document.querySelectorAll('.label-cell').forEach((c, idx) => {
       c.classList.toggle('selected', idx === i);
     });
+    updateMobileView();
     els.selectedInfo.textContent = `#${i + 1}`;
     els.singleText.disabled = false;
     els.singleText.value = labels[i] || '';
@@ -543,6 +729,7 @@
     if (selectedIndex >= 0) {
       labels[selectedIndex] = els.singleText.value;
       updateCellText(selectedIndex);
+      updateMobileView();
     }
   });
 
@@ -551,6 +738,7 @@
     for (let i = 0; i < TOTAL; i++) {
       labels[i] = text;
       updateCellText(i);
+      if (i === mobileIndex) updateMobileView();
     }
   });
 
@@ -568,6 +756,9 @@
     els.allModeFields.style.display = m === 'all' ? 'block' : 'none';
     document.getElementById('modeSingle').classList.toggle('active', m === 'single');
     document.getElementById('modeAll').classList.toggle('active', m === 'all');
+    if (m === 'single' && selectedIndex !== mobileIndex) {
+      selectLabel(mobileIndex);
+    }
   }
 
   // ── Alignment ──
@@ -608,6 +799,8 @@
       // guide line
       cell.style.outline = showGuide ? '1px solid #000' : 'none';
     });
+
+    updateMobileView();
   }
 
   // ── Zoom ──
@@ -628,6 +821,7 @@
     if (!confirm('모든 라벨의 텍스트를 삭제하시겠습니까?')) return;
     labels = new Array(TOTAL).fill('');
     for (let i = 0; i < TOTAL; i++) updateCellText(i);
+    updateMobileView();
     els.singleText.value = '';
     els.allText.value = '';
   }
@@ -691,9 +885,23 @@
     }
   });
 
+  // ── Mobile auto-fit ──
+  function autoFit() {
+    if (window.innerWidth <= 900) return;
+    const available = window.innerWidth - 348;
+    const sheetWidthPx = 210 * 3.7795;
+    const fitScale = Math.min(1, available / sheetWidthPx);
+    const fitPercent = Math.round(fitScale * 100 / 5) * 5;
+    els.zoom.value = Math.max(30, fitPercent);
+    applyZoom();
+  }
+
   // ── Init ──
   buildGrid();
-  applyZoom();
+  autoFit();
+
+  window.addEventListener('resize', autoFit);
+
 </script>
 
 </body>
