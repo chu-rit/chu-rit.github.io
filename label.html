@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>라벨메이커 - A4 시트</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -465,7 +466,7 @@
   <div class="actions">
     <button class="btn btn-outline" onclick="clearAll()">전체 삭제</button>
     <button class="btn btn-secondary" onclick="fillAll()">전체 채우기</button>
-    <button class="btn btn-primary" onclick="window.print()">인쇄</button>
+    <button class="btn btn-primary" onclick="printLabel()">인쇄</button>
   </div>
 </header>
 
@@ -922,6 +923,39 @@
     const fitPercent = Math.round(fitScale * 100 / 5) * 5;
     els.zoom.value = Math.max(30, fitPercent);
     applyZoom();
+  }
+
+  // ── Print via html2canvas ──
+  async function printLabel() {
+    const sheet = els.sheet;
+    const prevTransform = sheet.style.transform;
+    sheet.style.transform = 'none';
+    try {
+      const canvas = await html2canvas(sheet, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        width: sheet.offsetWidth,
+        height: sheet.offsetHeight,
+      });
+      const imgData = canvas.toDataURL('image/png');
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html><head><title>인쇄</title>
+        <style>
+          @page { size: A4; margin: 0; }
+          * { margin: 0; padding: 0; }
+          body { background: #fff; }
+          img { width: 210mm; height: 297mm; display: block; }
+        </style></head>
+        <body><img src="${imgData}" onload="window.print();setTimeout(()=>window.close(),300);"></body></html>
+      `);
+      win.document.close();
+    } catch(e) {
+      alert('인쇄 오류: ' + e.message);
+    } finally {
+      sheet.style.transform = prevTransform;
+    }
   }
 
   // ── Init ──
