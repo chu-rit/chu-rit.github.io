@@ -344,6 +344,7 @@
       position: sticky;
       top: 0;
       z-index: 20;
+      background: var(--card);
     }
     header h1 { font-size: 16px; }
     header .actions { gap: 6px; }
@@ -356,7 +357,7 @@
       flex: 0 0 auto;
       min-height: auto;
       position: sticky;
-      top: 52px;
+      top: 0;
       z-index: 9;
       background: var(--bg);
       width: 100%;
@@ -423,9 +424,10 @@
   /* Print styles - placed after all media queries to ensure override */
   @media print {
     @page { size: A4; margin: 0; }
-    body { background: #fff; }
-    header, .sidebar, .mobile-label-view, .sheet-info { display: none !important; }
-    .canvas-area { padding: 0; display: block; overflow: visible; }
+    * { visibility: hidden; }
+    html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+    .canvas-area, .canvas-area * { visibility: visible; }
+    .canvas-area { padding: 0; margin: 0; display: block; overflow: visible; position: static !important; }
     .sheet-wrapper { display: block !important; margin: 0; width: auto; height: auto; }
     .sheet {
       display: block !important;
