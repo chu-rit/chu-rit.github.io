@@ -928,9 +928,16 @@
   // ── Print via html2canvas ──
   async function printLabel() {
     const sheet = els.sheet;
+    const wrapper = els.sheetWrapper;
     const prevTransform = sheet.style.transform;
+    const prevDisplay = wrapper.style.display;
     sheet.style.transform = 'none';
+    wrapper.style.display = 'block';
+    wrapper.style.position = 'absolute';
+    wrapper.style.left = '-9999px';
+    wrapper.style.top = '0';
     try {
+      await new Promise(r => setTimeout(r, 100));
       const canvas = await html2canvas(sheet, {
         scale: 2,
         useCORS: true,
@@ -938,32 +945,30 @@
         width: sheet.offsetWidth,
         height: sheet.offsetHeight,
       });
-      const imgData = canvas.toDataURL('image/png');
-      const img = new Image();
-      img.onload = function() {
-        const win = window.open('', '_blank');
-        if (!win) { alert('팝업이 차단되었습니다. 팝업을 허용해주세요.'); return; }
-        win.document.open();
-        win.document.write('<html><head><title>인쇄</title>');
-        win.document.write('<style>@page{size:A4;margin:0}*{margin:0;padding:0}body{background:#fff}img{width:210mm;height:297mm;display:block}</style>');
-        win.document.write('</head><body>');
-        win.document.write('<img src="' + imgData + '" />');
-        win.document.write('</body></html>');
-        win.document.close();
-        setTimeout(function() {
-          win.focus();
-          win.print();
-          setTimeout(function() { win.close(); }, 500);
-        }, 300);
-      };
-      img.onerror = function() {
-        alert('이미지 생성에 실패했습니다.');
-      };
-      img.src = imgData;
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const blobUrl = URL.createObjectURL(blob);
+      const win = window.open('', '_blank');
+      if (!win) { alert('팝업이 차단되었습니다. 팝업을 허용해주세요.'); return; }
+      win.document.open();
+      win.document.write('<html><head><title>인쇄</title>');
+      win.document.write('<style>@page{size:A4;margin:0}*{margin:0;padding:0}body{background:#fff}img{width:210mm;height:297mm;display:block}</style>');
+      win.document.write('</head><body>');
+      win.document.write('<img src="' + blobUrl + '" />');
+      win.document.write('</body></html>');
+      win.document.close();
+      setTimeout(function() {
+        win.focus();
+        win.print();
+        setTimeout(function() { win.close(); URL.revokeObjectURL(blobUrl); }, 500);
+      }, 500);
     } catch(e) {
       alert('인쇄 오류: ' + e.message);
     } finally {
       sheet.style.transform = prevTransform;
+      wrapper.style.display = prevDisplay;
+      wrapper.style.position = '';
+      wrapper.style.left = '';
+      wrapper.style.top = '';
     }
   }
 
