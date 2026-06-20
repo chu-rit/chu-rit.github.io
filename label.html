@@ -930,11 +930,23 @@
     const wrapper = els.sheetWrapper;
     const prevTransform = sheet.style.transform;
     const prevDisplay = wrapper.style.display;
+    const prevBorder = sheet.style.border;
+    const prevBoxShadow = sheet.style.boxShadow;
     sheet.style.transform = 'none';
+    sheet.style.border = 'none';
+    sheet.style.boxShadow = 'none';
     wrapper.style.display = 'block';
     wrapper.style.position = 'absolute';
     wrapper.style.left = '-9999px';
     wrapper.style.top = '0';
+
+    const indexEls = sheet.querySelectorAll('.label-index');
+    const cellEls = sheet.querySelectorAll('.label-cell');
+    const prevIndexDisplay = [];
+    const prevOutline = [];
+    indexEls.forEach(el => { prevIndexDisplay.push(el.style.display); el.style.display = 'none'; });
+    cellEls.forEach((el, i) => { prevOutline.push(el.style.outline); el.style.outline = 'none'; });
+
     try {
       await new Promise(r => setTimeout(r, 100));
       const canvas = await html2canvas(sheet, {
@@ -959,10 +971,14 @@
       alert('인쇄 오류: ' + e.message);
     } finally {
       sheet.style.transform = prevTransform;
+      sheet.style.border = prevBorder;
+      sheet.style.boxShadow = prevBoxShadow;
       wrapper.style.display = prevDisplay;
       wrapper.style.position = '';
       wrapper.style.left = '';
       wrapper.style.top = '';
+      indexEls.forEach((el, i) => { el.style.display = prevIndexDisplay[i]; });
+      cellEls.forEach((el, i) => { el.style.outline = prevOutline[i]; });
     }
   }
 
