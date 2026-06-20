@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>라벨메이커 - A4 시트</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -333,8 +333,8 @@
   }
 
   @media (max-width: 900px) {
-    body { display: block; min-height: auto; }
-    .main { flex-direction: column; overflow: visible; flex: none; }
+    body { display: block; min-height: auto; overflow-x: hidden; width: 100%; }
+    .main { flex-direction: column; overflow: visible; flex: none; width: 100%; }
 
     /* Header - sticky on mobile */
     header {
@@ -359,6 +359,8 @@
       top: 52px;
       z-index: 9;
       background: var(--bg);
+      width: 100%;
+      overflow-x: hidden;
     }
 
     /* Hide A4 sheet on mobile, show single label view */
@@ -377,6 +379,8 @@
       order: 2;
       max-height: none;
       overflow-y: visible;
+      overflow-x: hidden;
+      box-sizing: border-box;
     }
 
     .sidebar h2 { font-size: 12px; margin-top: 14px; }
