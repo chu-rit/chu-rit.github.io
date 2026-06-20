@@ -464,8 +464,8 @@
   <h1>🏷️ 라벨메이커</h1>
   <div class="actions">
     <button class="btn btn-outline" onclick="clearAll()">전체 삭제</button>
-    <button class="btn btn-secondary" onclick="fillAll()">전체 채우기</button>
-    <button class="btn btn-primary" onclick="printLabel()">인쇄</button>
+    <button class="btn btn-primary" onclick="window.print()">바로인쇄</button>
+    <button class="btn btn-secondary" onclick="printLabel()">PDF</button>
   </div>
 </header>
 
@@ -851,12 +851,6 @@
     updateMobileView();
     els.singleText.value = '';
     els.allText.value = '';
-  }
-
-  // ── Fill all ──
-  function fillAll() {
-    setMode('all');
-    els.allText.focus();
   }
 
   // ── Color sync ──
