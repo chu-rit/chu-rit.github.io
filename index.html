@@ -210,6 +210,105 @@
             transform: scale(0.98);
         }
 
+        .play-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            background: #000;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .play-store-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+        .play-store-btn:active {
+            transform: scale(0.98);
+        }
+        .play-store-btn svg {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .play-store-btn-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .play-store-btn-text small {
+            font-size: 0.65rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .contact {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 48px 32px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: bounce 3s ease-in-out infinite;
+        }
+        .contact h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .contact p {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+        .contact a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            background-size: 200% 200%;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        .contact a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+            background-position: 100% 100%;
+        }
+        .contact a:active {
+            transform: scale(0.98);
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -242,13 +341,28 @@
         <div class="game-grid">
             <div class="game-card">
                 <div class="game-card-banner aqre">
-                    <span class="emoji">🧩</span>
+                    <img src="img/AQRE.png" alt="Aqre" style="width: 80px; height: 80px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); animation: bounce 3s ease-in-out infinite;">
                 </div>
                 <div class="game-info">
-                    <h2 class="game-title">Aqre (developing...)</h2>
+                    <h2 class="game-title">AQRE:FILL&FLOW (developing...)</h2>
                     <span class="game-tag">Puzzle</span>
-                    <p class="game-description">참신한 규칙들로 색칠해가며 자신의 두뇌를 시험해보세요!</p>
+                    <p class="game-description">논리 퍼즐 마니아를 위한 최고의 게임! 얼마 없는 힌트를 통해 단 하나의 정답을 찾아라!</p>
+                    <span class="game-tag">iOS / Android</span>
                     <!-- <a href="#" class="game-link">▶ Play</a> -->
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-card-banner fruitbox">
+                    <img src="img/FruitBox.png" alt="Fruit Box" style="width: 80px; height: 80px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); animation: bounce 3s ease-in-out infinite;">
+                </div>
+                <div class="game-info">
+                    <h2 class="game-title">Fruit Box(test)</h2>
+                    <span class="game-tag">Casual</span>
+                    <p class="game-description">과일을 모아 박스에 담아 배달하세요! 빠르고 정확하게!</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.churit.fruitbox" class="play-store-btn">
+                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#00C1FF" d="M48 59.1v393.8c0 11.2 8.5 20.4 19.3 21.4l241.6-217.6L67.3 37.7C56.5 38.7 48 47.9 48 59.1z"/><path fill="#00E3FF" d="M389.9 206.8L318.5 165 88.1 37.7c-6.2-3.6-13.4-4.9-20.8-4.2l241.6 217.6 81-44.3z"/><path fill="#00C1FF" d="M389.9 206.8l-81 44.3 81 44.3 80.8-44.3c19.4-10.6 19.4-37.7 0-48.3z"/><path fill="#00E3FF" d="M88.1 474.3l230.4-127.3 71.4-41.8-81-44.3L67.3 478.6c7.4.7 14.6-.6 20.8-4.3z"/><path fill="#00C1FF" d="M67.3 478.6c5.2.5 10.6-.4 15.5-2.9l241.6-217.6L67.3 37.7c-4.9-2.5-10.3-3.4-15.5-2.9C56.5 38.7 48 47.9 48 59.1v393.8c0 11.2 8.5 20.4 19.3 21.4z" opacity="0"/><path fill="#FF3A44" d="M48 59.1v393.8c0 11.2 8.5 20.4 19.3 21.4L309.6 256 67.3 37.7C56.5 38.7 48 47.9 48 59.1z"/><path fill="#FF3A44" d="M389.9 206.8L318.5 165 88.1 37.7c-6.2-3.6-13.4-4.9-20.8-4.2L309.6 256l80.3-49.2z"/><path fill="#C12126" d="M389.9 206.8l-81 44.3 81 44.3 80.8-44.3c19.4-10.6 19.4-37.7 0-48.3z"/></svg>
+                        <span class="play-store-btn-text"><small>GET IT ON</small>Google Play</span>
+                    </a>
                 </div>
             </div>
             <div class="game-card">
@@ -278,17 +392,6 @@
                 </div>
             </div>
             <div class="game-card">
-                <div class="game-card-banner fruitbox">
-                    <span class="emoji">🧺</span>
-                </div>
-                <div class="game-info">
-                    <h2 class="game-title">Fruit Box(test)</h2>
-                    <span class="game-tag">Casual</span>
-                    <p class="game-description">과일을 모아 박스에 담아 배달하세요! 빠르고 정확하게!</p>
-                    <a href="/fruitBox/" class="game-link">▶ Play</a>
-                </div>
-            </div>
-            <div class="game-card">
                 <div class="game-card-banner makethemelon">
                     <span class="emoji">🍉</span>
                 </div>
@@ -301,6 +404,15 @@
             </div>
         </div>
     </div>
+
+    <section class="contact">
+        <div class="contact-card">
+            <span class="contact-icon">✉️</span>
+            <h2>Contact Us</h2>
+            <p>Have questions or feedback?<br>We'd love to hear from you.</p>
+            <a href="mailto:churit@icloud.com">✉ Email Us</a>
+        </div>
+    </section>
 
     <footer>
         &copy; 2024 churit Games
